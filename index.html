@@ -279,7 +279,6 @@ footer{background:#040404;padding:4rem;border-top:1px solid rgba(201,168,76,.12)
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-
   const firebaseConfig = {
     apiKey: "AIzaSyBshUFXo45eBAvT4p1sRgV4twS7IZaoyxg",
     authDomain: "mobisinav.firebaseapp.com",
@@ -294,13 +293,17 @@ footer{background:#040404;padding:4rem;border-top:1px solid rgba(201,168,76,.12)
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  database.ref('besiktas').on('value', (snapshot) => {
-      const veri = snapshot.val();
-      document.getElementById("ekran").innerText = veri ? veri : "Henüz veri yok";
+  // Veriyi kökten çeken kod
+  database.ref('/').on('value', (snapshot) => {
+    const veri = snapshot.val();
+    console.log(veri); 
+    // Eğer veri varsa ekrana bas, yoksa "Veri yok" yaz
+    document.getElementById("ekran").innerText = veri ? JSON.stringify(veri) : "Veri yok"; 
   });
 </script>
 
 <h1 id="ekran">Yükleniyor...</h1>
+
   
 <!-- HERO -->
 <section id="hero">
