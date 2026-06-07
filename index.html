@@ -279,6 +279,7 @@ footer{background:#040404;padding:4rem;border-top:1px solid rgba(201,168,76,.12)
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
+  // Firebase yapılandırman
   const firebaseConfig = {
     apiKey: "AIzaSyBshUFXo45eBAvT4p1sRgV4twS7IZaoyxg",
     authDomain: "mobisinav.firebaseapp.com",
@@ -290,15 +291,23 @@ footer{background:#040404;padding:4rem;border-top:1px solid rgba(201,168,76,.12)
     measurementId: "G-4RN6L29STP"
   };
   
+  // Firebase'i başlat
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // Veriyi kökten çeken kod
-  database.ref('/').on('value', (snapshot) => {
-    const veri = snapshot.val();
-    console.log(veri); 
-    // Eğer veri varsa ekrana bas, yoksa "Veri yok" yaz
-    document.getElementById("ekran").innerText = veri ? JSON.stringify(veri) : "Veri yok"; 
+  // Veriyi dinle ve temiz bir şekilde ekrana bas
+  // 'besiktas' referansını, Firebase konsolundaki verinin tam etiketiyle aynı olduğundan emin ol
+  database.ref('besiktas').on('value', (snapshot) => {
+    let veri = snapshot.val();
+    
+    if (veri) {
+        // Eğer veride fazladan tırnak veya kaçış karakteri varsa temizle
+        let temizVeri = String(veri).replace(/^"|"$/g, '').replace(/\\"/g, '"');
+        document.getElementById("ekran").innerText = temizVeri;
+    } else {
+        // Veri yoksa varsayılan değer
+        document.getElementById("ekran").innerText = "BEŞİKTAŞ";
+    }
   });
 </script>
 
